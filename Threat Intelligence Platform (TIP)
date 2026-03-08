@@ -1,0 +1,29 @@
+
+import sqlite3
+
+def init_db():
+    conn = sqlite3.connect("threat_intel.db")
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS indicators (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        type TEXT,
+        value TEXT UNIQUE,
+        threat_level TEXT,
+        source TEXT
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+init_db()
+3. Threat Intelligence API Platform
+from flask import Flask, request, jsonify
+import sqlite3
+
+app = Flask(__name__)
+
+DB = "threat_intel.db"
+
